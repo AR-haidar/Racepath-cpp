@@ -1,3 +1,4 @@
 racepath
 racepath.exe
 *.o
+.vscode

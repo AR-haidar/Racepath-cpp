@@ -1,6 +1,6 @@
 # 🏎️ RacePath
 
-> Game mobil interaktif yang menggabungkan unsur strategi dan ketangkasan, di mana pemain mengendalikan mobil yang melaju di lintasan bercabang. Dalam game ini, pemain ditantang untuk mengumpulkan koin sambil menghindari rintangan berupa pagar, menjaga nyawa tetap tersisa, dan berpacu dengan waktu yang terus bertambah di setiap level tingkat kesulitan nya juga bertambah
+Game mobil interaktif yang menggabungkan unsur strategi dan ketangkasan, di mana pemain mengendalikan mobil yang melaju di lintasan bercabang. Dalam game ini, pemain ditantang untuk mengumpulkan koin sambil menghindari rintangan berupa pagar, menjaga nyawa tetap tersisa, dan berpacu dengan waktu yang terus bertambah di setiap level tingkat kesulitan nya juga bertambah
 
 ---
 
