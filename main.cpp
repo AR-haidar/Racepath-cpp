@@ -18,9 +18,9 @@ void tampilkanMenuPengaturan() {
         cout << "========================================" << endl;
         cout << "| 1. Sound Effects   :   " << (soundEnabled ? "[ ON ] " : "[ OFF ]") << "     |" << endl;
         cout << "|                                      |" << endl;
-        cout << "| 2. Kembali ke Menu Utama             |" << endl;
+        cout << "| 0. Kembali ke Menu Utama             |" << endl;
         cout << "========================================" << endl << endl;
-        cout << "Pilih opsi (1-2): ";
+        cout << "Pilih opsi (0-1): ";
 
         pilihan = _getch(); // Langsung ngabaca input tanpa perlu Enter
 
@@ -29,7 +29,7 @@ void tampilkanMenuPengaturan() {
             soundEnabled = !soundEnabled;
         }
 
-    } while (pilihan != '2');
+    } while (pilihan != '0');
 }
 
 void tampilkanTopScore() {
@@ -65,11 +65,20 @@ void tampilkanTopScore() {
     system("pause");
 }
 
-bool isAlphanumeric(const std::string &s) {
-    if (s.empty()) return false;
+bool isValidate(const std::string &s) {
+    if (s.empty()) {
+        cout << "Maaf, nama tidak boleh kosong\n";
+        return false;
+    }
+    if (s.length() > 12) {
+        cout << "Maaf, maksimal 12 karakter saja!\n";
+        return false;
+    }
     for (char c : s) {
-        if (!((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9')))
+        if (!((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || c == ' ')) {
+            cout << "Nama hanya boleh huruf (A-Z, a-z) dan spasi. Coba lagi!\n";
             return false;
+        }
     }
     return true;
 }
@@ -92,11 +101,17 @@ void menu() {
         cout << "========================================" << endl << endl;
         cout << "Pilih opsi (0-3): ";
 
-        char pilihan;
-        cin >> pilihan;
-
+        int pilihan;
+        if (!(cin >> pilihan)) {
+            pilihan = 0;
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Opsi tidak valid, ";
+            system("pause");
+            continue;
+        }
         switch (pilihan) {
-        case '1':
+        case 1:
             system("CLS");
             while (true) {
                 cout << "Masukkan nama Anda (maks 12 huruf, tanpa angka/simbol): ";
@@ -104,30 +119,14 @@ void menu() {
                 // Hapus spasi di awal/akhir
                 user.erase(user.find_last_not_of(" \t\r\n") + 1);
                 user.erase(0, user.find_first_not_of(" \t\r\n"));
-                // Cek panjang
-                if (user.length() > 12) {
-                    cout << "Maaf, maksimal 12 karakter saja!\n";
-                    system("pause");
-                    system("CLS");
-                    continue;
-                }
                 // Cek hanya huruf dan spasi
-                bool valid = true;
-                for (char c : user) {
-                    if (!((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || c == ' ')) {
-                        valid = false;
-                        break;
-                    }
+                if (isValidate(user)) {
+                    break;
                 }
-                if (!valid || user.empty()) {
-                    cout << "Nama hanya boleh huruf (A-Z, a-z) dan spasi. Coba lagi!\n";
-                    system("pause");
-                    system("CLS");
-                    continue;
-                }
-                break;
+                system("pause");
+                system("CLS");
+                continue;
             }
-            cin.ignore();
             while (true) {
                 cout << "\nPilih Difficulty:" << endl;
                 cout << "1. Normal" << endl;
@@ -158,19 +157,19 @@ void menu() {
 
             mainGame(difficulty, spawnMultiplier, scoreMultiplier, user);
             break;
-        case '2':
+        case 2:
             tampilkanMenuPengaturan();
             break;
-        case '3':
+        case 3:
             system("CLS");
             tampilkanTopScore();
             break;
-        case '0':
+        case 0:
             cout << "\nKeluar dari program\n";
             return;
         default:
-            cout << "\nOpsi tidak valid, tekan tombol apa saja untuk coba lagi...";
-            _getch();
+            cout << "\nOpsi tidak valid, ";
+            system("pause");
             break;
         }
     }

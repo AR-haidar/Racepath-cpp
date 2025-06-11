@@ -303,6 +303,7 @@ void mainGame(int difficulty, float spawnMultiplier, float scoreMultiplier, stri
     finishLinePos = -1;
 
     while (nyawa > 0) {
+        bool inTransition = false;
         if (!finishLineInserted && distanceToFinish <= 0) {
             for (int i = 0; i < TOTAL_LINTASAN; ++i)
                 CustomQueue_setAt(&jalur[i], PANJANG_JALAN - 1, FINISH_LINE_MARKER);
@@ -430,15 +431,19 @@ void mainGame(int difficulty, float spawnMultiplier, float scoreMultiplier, stri
                 CustomQueue_updateBack(&jalur[i], (i % 2 == 1) ? SIMBOL_JALAN : SIMBOL_KOSONG);
         }
 
-        score += static_cast<int>(scoreMultiplier * currentLevel);
-        if (koinShowCounter == KOIN_SHOW_FRAMES - 1)
-            score += KOIN_SCORE;
+        // PAUSE SCORE INCREMENT DURING TRANSITION
+        if (!finishLineInserted || !cekFinishLineCross()) {
+            score += static_cast<int>(scoreMultiplier * currentLevel);
+            if (koinShowCounter == KOIN_SHOW_FRAMES - 1)
+                score += KOIN_SCORE;
+        }
 
         if (finishLineInserted && cekFinishLineCross()) {
             finishLineCrossed = true;
-            if (soundEnabled)
+            if (soundEnabled) 
                 PlaySound(TEXT("level.wav"), NULL, SND_FILENAME | SND_ASYNC);
             int transitionFrames = 50;
+            inTransition = true;
             for (int t = 0; t < transitionFrames; ++t) {
                 fill_n(consoleBuffer, LEBAR_LAYAR * TINGGI_LAYAR, CHAR_INFO{' ', 7});
                 string msg = "Level " + to_string(currentLevel) + " clear!";
@@ -479,6 +484,7 @@ void mainGame(int difficulty, float spawnMultiplier, float scoreMultiplier, stri
                 }
                 Sleep(max(10, 30));
             }
+            inTransition = false;
             currentLevel++;
             distanceToFinish = getTrackLength(currentLevel);
             finishLineInserted = false;
