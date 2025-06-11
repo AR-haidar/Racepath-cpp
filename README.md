@@ -20,11 +20,16 @@ Game mobil interaktif yang menggabungkan unsur strategi dan ketangkasan, di mana
 
 ### 1. Clone repositori
 ```bash
-git clone https://github.com/username/nama-proyek.git
-cd nama-proyek
+git clone https://github.com/CahyaAziz/Racepath-cpp.git
+cd Racepath-cpp
 ```
 
 ### 2. Compile project
 ```bash
 g++ main.cpp game.cpp -o racepath.exe -std=c++17 -I. -lwinmm
+```
+
+### 3. Open project
+```bash
+./racepath.exe
 ```
